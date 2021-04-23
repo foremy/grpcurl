@@ -512,7 +512,7 @@ func makeTemplate(md *desc.MessageDescriptor, path []*desc.MessageDescriptor) pr
 // given properties. If cacertFile is blank, only standard trusted certs are used to
 // verify the server certs. If clientCertFile is blank, the client will not use a client
 // certificate. If clientCertFile is not blank then clientKeyFile must not be blank.
-func ClientTransportCredentials(insecureSkipVerify bool, cacertFile, clientCertFile, clientKeyFile string) (credentials.TransportCredentials, error) {
+func ClientTransportCredentials(insecureSkipVerify bool, cacertFile, clientCertFile, clientKeyFile, sslKeyLogFile string) (credentials.TransportCredentials, error) {
 	var tlsConf tls.Config
 
 	if clientCertFile != "" {
@@ -540,6 +540,18 @@ func ClientTransportCredentials(insecureSkipVerify bool, cacertFile, clientCertF
 		}
 
 		tlsConf.RootCAs = certPool
+	}
+
+	if sslKeyLogFile == "" {
+		sslKeyLogFile = os.Getenv("SSLKEYLOGFILE")
+	}
+
+	if sslKeyLogFile != "" {
+		sslKeyLog, err := os.OpenFile(sslKeyLogFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create TLS key log file: %v", err)
+		}
+		tlsConf.KeyLogWriter = sslKeyLog
 	}
 
 	return credentials.NewTLS(&tlsConf), nil

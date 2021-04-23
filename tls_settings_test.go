@@ -30,7 +30,7 @@ func TestBasicTLS(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -49,7 +49,7 @@ func TestInsecureClientTLS(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(true, "", "", "")
+	clientCreds, err := ClientTransportCredentials(true, "", "", "", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -68,7 +68,7 @@ func TestClientCertTLS(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/client.crt", "internal/testing/tls/client.key")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/client.crt", "internal/testing/tls/client.key", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -87,7 +87,7 @@ func TestRequireClientCertTLS(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/client.crt", "internal/testing/tls/client.key")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/client.crt", "internal/testing/tls/client.key", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -163,7 +163,7 @@ func TestBrokenTLS_ClientPlainText(t *testing.T) {
 }
 
 func TestBrokenTLS_ServerPlainText(t *testing.T) {
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -183,7 +183,7 @@ func TestBrokenTLS_ServerUsesWrongCert(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -203,7 +203,7 @@ func TestBrokenTLS_ClientHasExpiredCert(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/expired.crt", "internal/testing/tls/expired.key")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/expired.crt", "internal/testing/tls/expired.key", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -223,7 +223,7 @@ func TestBrokenTLS_ServerHasExpiredCert(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -243,7 +243,7 @@ func TestBrokenTLS_ClientNotTrusted(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/wrong-client.crt", "internal/testing/tls/wrong-client.key")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "internal/testing/tls/wrong-client.crt", "internal/testing/tls/wrong-client.key", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -263,7 +263,7 @@ func TestBrokenTLS_ServerNotTrusted(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "", "internal/testing/tls/client.crt", "internal/testing/tls/client.key")
+	clientCreds, err := ClientTransportCredentials(false, "", "internal/testing/tls/client.crt", "internal/testing/tls/client.key", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
@@ -283,7 +283,7 @@ func TestBrokenTLS_RequireClientCertButNonePresented(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}
-	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "")
+	clientCreds, err := ClientTransportCredentials(false, "internal/testing/tls/ca.crt", "", "", "")
 	if err != nil {
 		t.Fatalf("failed to create server creds: %v", err)
 	}

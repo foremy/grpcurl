@@ -152,6 +152,10 @@ var (
 		permitted if they are both set to the same value, to increase backwards
 		compatibility with earlier releases that allowed both to be set).`))
 	reflection = optionalBoolFlag{val: true}
+	keyLogFile = flags.String("keylogfile", "", prettify(`
+		Write the TLS session keys into this file. You can also set the
+		SSLKEYLOGFILE environment variable. See
+		https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/Key_Log_Format.`))
 )
 
 func init() {
@@ -409,7 +413,7 @@ func main() {
 		var creds credentials.TransportCredentials
 		if !*plaintext {
 			var err error
-			creds, err = grpcurl.ClientTransportCredentials(*insecure, *cacert, *cert, *key)
+			creds, err = grpcurl.ClientTransportCredentials(*insecure, *cacert, *cert, *key, *keyLogFile)
 			if err != nil {
 				fail(err, "Failed to configure transport credentials")
 			}
